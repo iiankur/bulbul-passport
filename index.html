@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>BulBul — A Passport to Us</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<div class="vignette"></div>
+
+<section id="cover">
+  <div class="cover-inner">
+    <span class="label cover-eyebrow" id="c-eyebrow"></span>
+    <h1 class="cover-title" id="c-names"></h1>
+    <p class="cover-sub" id="c-subtitle"></p>
+    <button class="seal-btn" id="openBtn" aria-label="Open the passport">Tap to<br/>open</button>
+  </div>
+</section>
+
+<nav class="spine" aria-label="Chapters">
+  <a class="spine-dot" href="#origin"><span>00 · Origin</span></a>
+  <a class="spine-dot" href="#distance"><span>01 · Distance</span></a>
+  <a class="spine-dot" href="#union"><span>02 · Union</span></a>
+  <a class="spine-dot" href="#home"><span>03 · Home</span></a>
+  <a class="spine-dot" href="#her"><span>04 · Her</span></a>
+  <a class="spine-dot" href="#future"><span>05 · Future</span></a>
+  <a class="spine-dot" href="#promises"><span>06 · Promises</span></a>
+  <a class="spine-dot" href="#letter"><span>07 · Letter</span></a>
+</nav>
+
+<main>
+
+  <section class="chapter" id="origin">
+    <div class="chapter-head reveal">
+      <span class="label chapter-num">00 · Origin</span>
+      <h2 class="chapter-title" id="origin-title"></h2>
+    </div>
+    <div class="chapter-body reveal">
+      <p id="origin-body"></p>
+      <div class="stat-row" id="origin-stats"></div>
+    </div>
+  </section>
+
+  <section class="chapter" id="distance" style="--ink-color:var(--aurora-bright)">
+    <div class="stamp reveal" id="distance-stamp"></div>
+    <div class="chapter-head reveal">
+      <span class="label chapter-num">01 · Distance</span>
+      <h2 class="chapter-title" id="distance-title"></h2>
+    </div>
+    <div class="chapter-body reveal">
+      <p class="coords" id="distance-coords"></p>
+      <p style="text-align:center; color:var(--text-ink-dim); margin-bottom:2rem;" id="distance-intro"></p>
+      <div class="postcards" id="postcards"></div>
+    </div>
+  </section>
+
+  <section class="chapter" id="union" style="--ink-color:var(--maroon)">
+    <div class="stamp reveal" id="union-stamp"></div>
+    <div class="chapter-head reveal">
+      <span class="label chapter-num">02 · Union</span>
+      <h2 class="chapter-title" id="union-title"></h2>
+    </div>
+    <div class="chapter-body reveal">
+      <div class="union-row" id="union-row"></div>
+    </div>
+  </section>
+
+  <section class="chapter" id="home">
+    <div class="chapter-head reveal">
+      <span class="label chapter-num">03 · Home</span>
+      <h2 class="chapter-title" id="home-title"></h2>
+    </div>
+    <div class="chapter-body reveal">
+      <div class="tv-scene">
+        <div class="tv"><div class="tv-label" id="tv-label"></div></div>
+        <div class="plates" id="plates"></div>
+      </div>
+      <p style="text-align:center; color:var(--text-ink-dim);" id="home-body"></p>
+    </div>
+  </section>
+
+  <section class="chapter" id="her">
+    <div class="chapter-head reveal">
+      <span class="label chapter-num">04 · Her</span>
+      <h2 class="chapter-title" id="her-title"></h2>
+    </div>
+    <div class="chapter-body reveal">
+      <div class="her-grid" id="her-grid"></div>
+    </div>
+  </section>
+
+  <section class="chapter" id="future">
+    <div class="chapter-head reveal">
+      <span class="label chapter-num">05 · Future</span>
+      <h2 class="chapter-title" id="future-title"></h2>
+    </div>
+    <div class="chapter-body reveal">
+      <div class="aurora-band" aria-hidden="true"></div>
+      <p class="future-quote" id="future-quote"></p>
+      <p class="future-sign label" style="color:var(--aurora-bright);" id="future-status"></p>
+    </div>
+  </section>
+
+  <section class="chapter" id="promises" style="--ink-color:var(--gold-bright)">
+    <div class="chapter-head reveal">
+      <span class="label chapter-num">06 · Promises</span>
+      <h2 class="chapter-title" id="promises-title"></h2>
+    </div>
+    <div class="chapter-body reveal">
+      <div class="promise-grid" id="promise-grid"></div>
+    </div>
+  </section>
+
+  <section class="chapter" id="letter">
+    <div class="chapter-head reveal">
+      <span class="label chapter-num">07 · Letter</span>
+      <h2 class="chapter-title" id="letter-title"></h2>
+    </div>
+    <div class="chapter-body reveal">
+      <div class="letter-text" id="letter-body">
+        <div class="letter-sign">
+          <div>
+            <div class="label" style="color:var(--text-paper-dim);" id="letter-signoff-label"></div>
+            <div style="font-size:1.2rem;" id="letter-signoff-name"></div>
+          </div>
+          <div class="monogram" id="letter-monogram"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="finale">
+    <div class="finale-stamp reveal" id="finale-stamp"></div>
+    <h2 class="finale-title reveal" id="finale-title"></h2>
+    <div class="finale-counters reveal">
+      <div><b id="daysMarried">–</b><span>days married</span></div>
+      <div><b id="bdayCount">–</b><span id="bdayLabel">&nbsp;</span></div>
+      <div><b id="finale-km"></b><span>km once between us</span></div>
+    </div>
+    <p class="finale-foot" id="finale-footer"></p>
+  </section>
+
+</main>
+
+<script src="content.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
