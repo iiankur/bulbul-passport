@@ -8,6 +8,91 @@
     return e;
   }
 
+  function renderRouteMap(fromLabel, toLabel) {
+    var wrap = document.getElementById('route-map');
+    if (!wrap) return;
+    var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var signal = reduced ? '' :
+      '<circle r="4" class="route-signal">' +
+        '<animateMotion dur="4.5s" repeatCount="indefinite" rotate="auto">' +
+          '<mpath href="#routePath"></mpath>' +
+        '</animateMotion>' +
+      '</circle>';
+    wrap.innerHTML =
+      '<svg class="route-svg" viewBox="0 0 600 170" role="img" aria-label="Route from ' + fromLabel + ' to ' + toLabel + '">' +
+        '<line x1="0" y1="150" x2="600" y2="150" class="route-grid"></line>' +
+        '<line x1="0" y1="110" x2="600" y2="110" class="route-grid"></line>' +
+        '<line x1="0" y1="70" x2="600" y2="70" class="route-grid"></line>' +
+        '<path id="routePath" d="M90,125 Q300,10 510,80" class="route-path"></path>' +
+        '<circle cx="90" cy="125" r="5" class="route-pin"></circle>' +
+        '<circle cx="510" cy="80" r="5" class="route-pin"></circle>' +
+        '<text x="90" y="148" text-anchor="middle" class="route-label">' + fromLabel + '</text>' +
+        '<text x="510" y="103" text-anchor="middle" class="route-label">' + toLabel + '</text>' +
+        signal +
+      '</svg>';
+  }
+
+  function initAurora() {
+    var canvas = document.getElementById('auroraCanvas');
+    if (!canvas) return;
+    var ctx = canvas.getContext('2d');
+    var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var w, h;
+
+    function resize() {
+      w = canvas.clientWidth; h = canvas.clientHeight;
+      canvas.width = Math.max(1, w * dpr);
+      canvas.height = Math.max(1, h * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    var layers = [
+      { color: 'rgba(99,193,174,.32)', amp: 16, speed: .0006, phase: 0, yBase: .3 },
+      { color: 'rgba(201,162,75,.20)', amp: 22, speed: .00045, phase: 2.1, yBase: .48 },
+      { color: 'rgba(243,233,214,.10)', amp: 26, speed: .0008, phase: 4.2, yBase: .62 },
+    ];
+
+    function draw(t) {
+      ctx.clearRect(0, 0, w, h);
+      layers.forEach(function (layer) {
+        ctx.beginPath();
+        var yBase = h * layer.yBase;
+        for (var x = 0; x <= w; x += 6) {
+          var y = yBase +
+            Math.sin(x * 0.015 + t * layer.speed + layer.phase) * layer.amp +
+            Math.sin(x * 0.008 - t * layer.speed * 1.4) * (layer.amp * .5);
+          if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        }
+        ctx.lineTo(w, h); ctx.lineTo(0, h); ctx.closePath();
+        ctx.fillStyle = layer.color;
+        ctx.fill();
+      });
+    }
+
+    if (reduced) { draw(0); return; }
+
+    var raf = null;
+    function loop(t) { draw(t); raf = requestAnimationFrame(loop); }
+
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting && raf === null) {
+            raf = requestAnimationFrame(loop);
+          } else if (!e.isIntersecting && raf !== null) {
+            cancelAnimationFrame(raf); raf = null;
+          }
+        });
+      }, { threshold: .1 });
+      io.observe(canvas);
+    } else {
+      raf = requestAnimationFrame(loop);
+    }
+  }
+
   function render() {
     // Cover
     document.getElementById('c-eyebrow').textContent = C.cover.eyebrow;
@@ -35,6 +120,7 @@
       ' &nbsp;—&nbsp; <b>' + C.distance.her.city + '</b> ' + C.distance.her.lat + ' ' + C.distance.her.lon +
       '<br/>≈ ' + C.distance.distanceKm + ' KM APART · 0 KM IN WHAT MATTERED';
     document.getElementById('distance-intro').textContent = C.distance.intro;
+    renderRouteMap(C.distance.you.city, C.distance.her.city);
     var postcardsWrap = document.getElementById('postcards');
     C.distance.postcards.forEach(function (p) {
       var card = el('button', 'postcard');
@@ -181,4 +267,5 @@
 
   render();
   wireInteractions();
+  initAurora();
 })();
