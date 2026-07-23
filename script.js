@@ -50,26 +50,33 @@
     window.addEventListener('resize', resize);
 
     var layers = [
-      { color: 'rgba(99,193,174,.32)', amp: 16, speed: .0006, phase: 0, yBase: .3 },
-      { color: 'rgba(201,162,75,.20)', amp: 22, speed: .00045, phase: 2.1, yBase: .48 },
-      { color: 'rgba(243,233,214,.10)', amp: 26, speed: .0008, phase: 4.2, yBase: .62 },
+      { color: 'rgba(99,193,174,.55)', amp: 20, speed: .0006, phase: 0, yBase: .32, thickness: 30 },
+      { color: 'rgba(99,193,174,.30)', amp: 26, speed: .00038, phase: 1.4, yBase: .45, thickness: 46 },
+      { color: 'rgba(201,162,75,.32)', amp: 16, speed: .00052, phase: 2.6, yBase: .55, thickness: 22 },
+      { color: 'rgba(243,233,214,.18)', amp: 22, speed: .0008, phase: 4.2, yBase: .68, thickness: 18 },
     ];
 
     function draw(t) {
       ctx.clearRect(0, 0, w, h);
+      ctx.save();
+      ctx.filter = 'blur(16px)';
+      ctx.globalCompositeOperation = 'lighter';
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
       layers.forEach(function (layer) {
         ctx.beginPath();
         var yBase = h * layer.yBase;
-        for (var x = 0; x <= w; x += 6) {
+        for (var x = 0; x <= w; x += 8) {
           var y = yBase +
             Math.sin(x * 0.015 + t * layer.speed + layer.phase) * layer.amp +
             Math.sin(x * 0.008 - t * layer.speed * 1.4) * (layer.amp * .5);
           if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
         }
-        ctx.lineTo(w, h); ctx.lineTo(0, h); ctx.closePath();
-        ctx.fillStyle = layer.color;
-        ctx.fill();
+        ctx.lineWidth = layer.thickness;
+        ctx.strokeStyle = layer.color;
+        ctx.stroke();
       });
+      ctx.restore();
     }
 
     if (reduced) { draw(0); return; }
