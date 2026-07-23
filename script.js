@@ -238,13 +238,17 @@
 
     var dots = document.querySelectorAll('.spine-dot');
     var sections = document.querySelectorAll('main .chapter[id]');
+    var ticker = document.getElementById('chapterTicker');
     if ('IntersectionObserver' in window && dots.length) {
       var navIo = new IntersectionObserver(function (entries) {
         entries.forEach(function (e) {
           if (e.isIntersecting) {
             dots.forEach(function (d) { d.classList.remove('active'); });
             var match = document.querySelector('.spine-dot[href="#' + e.target.id + '"]');
-            if (match) { match.classList.add('active'); }
+            if (match) {
+              match.classList.add('active');
+              if (ticker) { ticker.textContent = match.querySelector('span').textContent; }
+            }
           }
         });
       }, { threshold: .5 });

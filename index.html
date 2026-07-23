@@ -11,6 +11,8 @@
 
 <div class="vignette"></div>
 <div class="grain"></div>
+<div class="passport-frame" aria-hidden="true"></div>
+<div class="chapter-ticker" id="chapterTicker" aria-hidden="true"></div>
 
 <section id="cover">
   <div class="cover-inner">
@@ -75,7 +77,7 @@
       <span class="label chapter-num">03 · Home</span>
       <h2 class="chapter-title" id="home-title"></h2>
     </div>
-    <div class="chapter-body reveal">
+    <div class="chapter-body card reveal">
       <div class="tv-scene">
         <div class="tv"><div class="tv-label" id="tv-label"></div></div>
         <div class="plates" id="plates"></div>
@@ -89,7 +91,7 @@
       <span class="label chapter-num">04 · Her</span>
       <h2 class="chapter-title" id="her-title"></h2>
     </div>
-    <div class="chapter-body reveal">
+    <div class="chapter-body card reveal">
       <div class="her-grid" id="her-grid"></div>
     </div>
   </section>
@@ -99,7 +101,7 @@
       <span class="label chapter-num">05 · Future</span>
       <h2 class="chapter-title" id="future-title"></h2>
     </div>
-    <div class="chapter-body reveal">
+    <div class="chapter-body card reveal">
       <canvas class="aurora-canvas" id="auroraCanvas" aria-hidden="true"></canvas>
       <p class="future-quote" id="future-quote"></p>
       <p class="future-sign label" style="color:var(--aurora-bright);" id="future-status"></p>
@@ -135,14 +137,16 @@
   </section>
 
   <section id="finale">
-    <div class="finale-stamp reveal" id="finale-stamp"></div>
-    <h2 class="finale-title reveal" id="finale-title"></h2>
-    <div class="finale-counters reveal">
-      <div><b id="daysMarried">–</b><span>days married</span></div>
-      <div><b id="bdayCount">–</b><span id="bdayLabel">&nbsp;</span></div>
-      <div><b id="finale-km"></b><span>km once between us</span></div>
+    <div class="finale-card card">
+      <div class="finale-stamp reveal" id="finale-stamp"></div>
+      <h2 class="finale-title reveal" id="finale-title"></h2>
+      <div class="finale-counters reveal">
+        <div><b id="daysMarried">–</b><span>days married</span></div>
+        <div><b id="bdayCount">–</b><span id="bdayLabel">&nbsp;</span></div>
+        <div><b id="finale-km"></b><span>km once between us</span></div>
+      </div>
+      <p class="finale-foot" id="finale-footer"></p>
     </div>
-    <p class="finale-foot" id="finale-footer"></p>
   </section>
 
 </main>
