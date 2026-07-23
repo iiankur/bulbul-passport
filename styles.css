@@ -20,6 +20,7 @@
   --ink-line: rgba(237,230,214,.14);
   --paper:#F3E9D6;
   --paper-2:#EADFC6;
+  --bio-page:#F1DED7;
   --paper-line: rgba(36,28,18,.16);
   --gold:#C9A24B;
   --gold-bright:#E7C578;
@@ -46,8 +47,7 @@
 *{box-sizing:border-box;}
 ::selection{background:var(--gold); color:var(--text-paper);}
 
-html{ scroll-behavior:auto; }
-html.smooth{ scroll-behavior:smooth; }
+html, body{ height:100%; overflow:hidden; overscroll-behavior:none; }
 
 body{
   margin:0;
@@ -57,11 +57,9 @@ body{
   font-size:var(--fs-body);
   line-height:1.7;
   -webkit-font-smoothing:antialiased;
-  overflow-x:hidden;
   perspective:1800px;
   perspective-origin:10% 50%;
 }
-body.locked{ overflow:hidden; height:100vh; }
 
 h1,h2,h3{ margin:0; font-weight:400; text-wrap:balance; }
 p{ margin:0 0 1.1em; }
@@ -91,8 +89,7 @@ button{ font-family:inherit; }
   background-size:120px 120px;
 }
 /* Persistent bound-document frame — keeps the "passport," not "webpage,"
-   feeling alive after the cover closes, especially on phones where the
-   side spine nav is hidden. */
+   feeling alive around the page deck at every screen size. */
 .passport-frame{
   position:fixed; inset:10px; z-index:4; pointer-events:none;
   border:1px solid var(--ink-line);
@@ -104,20 +101,52 @@ button{ font-family:inherit; }
   .passport-frame{ inset:6px; }
   .passport-frame::after{ inset:4px; }
 }
-/* Mobile-only running chapter header, replaces the hidden side spine. */
-.chapter-ticker{
+/* Running page header — always on, replaces the old scroll-tracked nav
+   now that the site is a paginated deck instead of a scrolling document. */
+.page-label{
   position:fixed; top:0; left:0; right:0; z-index:15;
-  padding:.8rem 1rem 1.4rem;
+  padding:.9rem 1rem 1.6rem;
   text-align:center;
-  background:linear-gradient(to bottom, var(--ink) 40%, transparent 100%);
-  font-family:var(--mono); font-size:.64rem; letter-spacing:.14em; text-transform:uppercase;
+  background:linear-gradient(to bottom, var(--ink) 35%, transparent 100%);
+  font-family:var(--mono); font-size:.66rem; letter-spacing:.14em; text-transform:uppercase;
   color:var(--gold-bright);
   opacity:0; visibility:hidden; transform:translateY(-6px);
   transition:opacity .4s ease, transform .4s ease, visibility .4s ease;
-  display:none;
+  pointer-events:none;
 }
-body.opened .chapter-ticker{ opacity:1; visibility:visible; transform:none; }
-@media (max-width:820px){ .chapter-ticker{ display:block; } }
+body.opened .page-label{ opacity:1; visibility:visible; transform:none; }
+
+/* Bottom page-turn controls: prev/next arrows + jump-to-page dots. */
+.pagedock{
+  position:fixed; left:0; right:0; bottom:0; z-index:15;
+  display:flex; align-items:center; justify-content:center; gap:1rem;
+  padding:.9rem 1rem calc(1rem + env(safe-area-inset-bottom, 0px));
+  background:linear-gradient(to top, var(--ink) 35%, transparent 100%);
+  opacity:0; visibility:hidden; transform:translateY(6px);
+  transition:opacity .4s ease, transform .4s ease, visibility .4s ease;
+}
+body.opened .pagedock{ opacity:1; visibility:visible; transform:none; }
+.pd-arrow{
+  appearance:none; cursor:pointer; flex:none;
+  width:34px; height:34px; border-radius:50%;
+  border:1px solid var(--ink-line); background:transparent; color:var(--text-ink);
+  font-size:1.1rem; line-height:1; display:flex; align-items:center; justify-content:center;
+  transition:border-color .2s ease, color .2s ease;
+}
+.pd-arrow:hover, .pd-arrow:focus-visible{ border-color:var(--gold); color:var(--gold-bright); outline:none; }
+.pd-arrow:disabled{ opacity:.25; cursor:default; }
+.pd-dots{ display:flex; align-items:center; gap:8px; }
+.pd-dot{
+  appearance:none; cursor:pointer; padding:0;
+  width:8px; height:8px; border-radius:50%;
+  border:1px solid var(--text-ink-dim); background:transparent;
+}
+.pd-dot:hover, .pd-dot:focus-visible{ border-color:var(--gold-bright); outline:none; }
+.pd-dot.active{ background:var(--gold); border-color:var(--gold); }
+@media (max-width:480px){
+  .pd-dots{ gap:6px; }
+  .pd-dot{ width:6px; height:6px; }
+}
 
 /* ============================================================
    COVER
@@ -184,39 +213,27 @@ body.opened #cover{ opacity:0; visibility:hidden; pointer-events:none; }
 }
 
 /* ============================================================
-   SPINE NAV
+   PAGE DECK
+   Each chapter is a full-viewport "page." Only one is visible/
+   interactive at a time; goToPage() in script.js flips between them.
    ============================================================ */
-.spine{
-  position:fixed; left:22px; top:50%; transform:translateY(-50%);
-  z-index:20; display:flex; flex-direction:column; gap:14px;
-  opacity:0; visibility:hidden; transition:opacity .6s ease .3s;
+.pages{
+  position:fixed; inset:0; z-index:1; overflow:hidden; perspective:2200px;
 }
-body.opened .spine{ opacity:1; visibility:visible; }
-.spine-dot{
-  width:9px; height:9px; border-radius:50%;
-  border:1px solid var(--text-ink-dim);
-  display:block; position:relative; text-decoration:none;
-}
-.spine-dot span{
-  position:absolute; left:20px; top:50%; transform:translateY(-50%);
-  white-space:nowrap; font-family:var(--mono); font-size:.68rem; letter-spacing:.1em;
-  color:var(--text-ink-dim); opacity:0; transition:opacity .25s ease;
-}
-.spine-dot:hover span, .spine-dot:focus-visible span{ opacity:1; }
-.spine-dot.active{ background:var(--gold); border-color:var(--gold); }
-.spine-dot.active span{ color:var(--gold-bright); }
-@media (max-width:820px){ .spine{ display:none; } }
-
-/* ============================================================
-   CHAPTER SHELL
-   ============================================================ */
-.chapter{
-  position:relative;
-  padding:7.5rem 1.5rem;
+.page{
+  position:absolute; inset:0;
   display:flex; flex-direction:column; align-items:center;
+  padding:7.5rem 1.5rem 8rem;
+  overflow-y:auto; -webkit-overflow-scrolling:touch;
+  backface-visibility:hidden;
+  transform-origin:left center;
+  transition:transform .8s cubic-bezier(.65,0,.35,1);
+  visibility:hidden;
+  z-index:1;
 }
+.page.page-active{ visibility:visible; transform:none; z-index:2; }
 @media (max-width:820px){
-  .chapter{ padding:4.75rem 1.1rem; }
+  .page{ padding:6.5rem 1.1rem 7rem; }
 }
 .chapter-head{ max-width:var(--measure); width:100%; margin-bottom:2.6rem; text-align:center; }
 .card{
@@ -268,6 +285,44 @@ body.opened .spine{ opacity:1; visibility:visible; }
   .finale-stamp.in-view{ animation:stampImpact .7s cubic-bezier(.25,.8,.3,1.15) both; }
   .reveal.in-view .visa-stamp,
   .reveal.in-view .monogram{ animation:stampImpact .7s cubic-bezier(.25,.8,.3,1.15) both; }
+}
+
+/* ============================================================
+   BIO DATA
+   ============================================================ */
+.biopage{
+  background:linear-gradient(160deg, var(--bio-page), var(--paper));
+  border:1px solid var(--paper-line);
+  padding:2rem clamp(1.2rem,5vw,2.2rem);
+  color:var(--text-paper);
+  box-shadow:0 30px 60px -30px rgba(0,0,0,.5);
+}
+.bio-top{ display:flex; gap:1.4rem; margin-bottom:1.6rem; }
+.bio-photo{
+  width:108px; height:130px; flex:none;
+  border:1.5px solid var(--maroon);
+  background:repeating-linear-gradient(135deg, rgba(139,38,53,.06) 0 6px, transparent 6px 12px);
+  display:flex; align-items:center; justify-content:center;
+}
+.bio-bird{ width:58%; height:58%; fill:var(--maroon); opacity:.55; }
+.bio-photo img{ width:100%; height:100%; object-fit:cover; }
+.bio-namebox{ flex:1; display:flex; flex-direction:column; justify-content:center; gap:.6rem; min-width:0; }
+.bio-name{ font-family:var(--display); font-weight:600; font-size:1.35rem; text-wrap:balance; }
+.bio-passportno-wrap{ display:flex; flex-wrap:wrap; gap:.4rem .6rem; align-items:baseline; font-family:var(--mono); font-size:.82rem; }
+.bio-passportno{ color:var(--maroon); }
+.bio-fields{
+  display:grid; grid-template-columns:1fr 1fr; gap:1rem 1.4rem;
+  border-top:1px dashed var(--paper-line); padding-top:1.2rem; margin-bottom:1.4rem;
+}
+@media (max-width:480px){ .bio-fields{ grid-template-columns:1fr; } }
+.bio-field-label{ color:var(--text-paper-dim); margin-bottom:.3em; }
+.bio-field-value{ font-family:var(--mono); font-size:.86rem; }
+.bio-sign{ display:flex; justify-content:flex-end; align-items:baseline; gap:.7rem; margin-bottom:1.6rem; }
+.bio-sig-script{ font-family:var(--serif); font-style:italic; font-size:1.25rem; }
+.bio-mrz{
+  font-family:var(--mono); font-size:.68rem; letter-spacing:.02em;
+  border-top:1px dashed var(--paper-line); padding-top:1rem;
+  color:var(--text-paper-dim); white-space:pre; overflow-x:auto;
 }
 
 /* ============================================================
@@ -451,8 +506,7 @@ body.opened .spine{ opacity:1; visibility:visible; }
 /* ============================================================
    FINALE
    ============================================================ */
-#finale{ text-align:center; padding:6rem 1.1rem 9rem; display:flex; justify-content:center; }
-@media (max-width:820px){ #finale{ padding:4.5rem 1rem 6rem; } }
+#finale{ text-align:center; }
 .finale-stamp{
   --rot:-6deg;
   width:150px; height:150px; border-radius:50%; margin:0 auto 2rem;

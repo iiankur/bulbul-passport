@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <meta name="robots" content="noindex, nofollow" />
 <title>BulBul — A Passport to Us</title>
 <link rel="stylesheet" href="styles.css" />
@@ -12,7 +12,8 @@
 <div class="vignette"></div>
 <div class="grain"></div>
 <div class="passport-frame" aria-hidden="true"></div>
-<div class="chapter-ticker" id="chapterTicker" aria-hidden="true"></div>
+
+<div class="page-label" id="pageLabel" aria-hidden="true"></div>
 
 <section id="cover">
   <div class="cover-inner">
@@ -23,22 +24,47 @@
   </div>
 </section>
 
-<nav class="spine" aria-label="Chapters">
-  <a class="spine-dot" href="#origin"><span>00 · Origin</span></a>
-  <a class="spine-dot" href="#distance"><span>01 · Distance</span></a>
-  <a class="spine-dot" href="#union"><span>02 · Union</span></a>
-  <a class="spine-dot" href="#home"><span>03 · Home</span></a>
-  <a class="spine-dot" href="#her"><span>04 · Her</span></a>
-  <a class="spine-dot" href="#future"><span>05 · Future</span></a>
-  <a class="spine-dot" href="#promises"><span>06 · Promises</span></a>
-  <a class="spine-dot" href="#letter"><span>07 · Letter</span></a>
-</nav>
+<div class="pages" id="pages">
 
-<main>
-
-  <section class="chapter" id="origin">
+  <section class="page" id="bio" data-title="00 · Bio Data">
     <div class="chapter-head reveal">
-      <span class="label chapter-num">00 · Origin</span>
+      <span class="label chapter-num">00 · Bio Data</span>
+      <h2 class="chapter-title">Particulars of the holder</h2>
+    </div>
+    <div class="chapter-body reveal">
+      <div class="biopage">
+        <div class="bio-top">
+          <div class="bio-photo" id="bio-photo">
+            <svg viewBox="0 0 120 120" class="bio-bird" aria-hidden="true">
+              <path d="M33 88 Q28 62 44 47 Q39 36 49 29 Q54 21 63 25 Q60 30 64 33 Q77 29 88 40 Q80 43 75 47 Q84 53 83 64 Q70 56 59 59 Q66 70 61 82 Q54 71 47 73 Q45 82 33 88 Z"/>
+              <circle cx="60" cy="34" r="2.6"/>
+            </svg>
+          </div>
+          <div class="bio-namebox">
+            <div class="label bio-field-label">Given Names</div>
+            <div class="bio-name" id="bio-name"></div>
+            <div class="bio-passportno-wrap">
+              <span class="label bio-field-label">Passport No.</span>
+              <span class="bio-passportno" id="bio-passportno"></span>
+            </div>
+          </div>
+        </div>
+        <div class="bio-fields" id="bio-fields"></div>
+        <div class="bio-sign">
+          <div class="bio-sig-script" id="bio-sig-name"></div>
+          <div class="label bio-sig-label" id="bio-sig-label"></div>
+        </div>
+        <div class="bio-mrz">
+          <div id="bio-mrz1"></div>
+          <div id="bio-mrz2"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" id="origin" data-title="01 · Origin">
+    <div class="chapter-head reveal">
+      <span class="label chapter-num">01 · Origin</span>
       <h2 class="chapter-title" id="origin-title"></h2>
     </div>
     <div class="chapter-body reveal">
@@ -47,10 +73,10 @@
     </div>
   </section>
 
-  <section class="chapter" id="distance" style="--ink-color:var(--aurora-bright)">
+  <section class="page" id="distance" data-title="02 · Distance" style="--ink-color:var(--aurora-bright)">
     <div class="stamp reveal" id="distance-stamp"></div>
     <div class="chapter-head reveal">
-      <span class="label chapter-num">01 · Distance</span>
+      <span class="label chapter-num">02 · Distance</span>
       <h2 class="chapter-title" id="distance-title"></h2>
     </div>
     <div class="chapter-body reveal">
@@ -61,10 +87,10 @@
     </div>
   </section>
 
-  <section class="chapter" id="union" style="--ink-color:var(--maroon)">
+  <section class="page" id="union" data-title="03 · Union" style="--ink-color:var(--maroon)">
     <div class="stamp reveal" id="union-stamp"></div>
     <div class="chapter-head reveal">
-      <span class="label chapter-num">02 · Union</span>
+      <span class="label chapter-num">03 · Union</span>
       <h2 class="chapter-title" id="union-title"></h2>
     </div>
     <div class="chapter-body reveal">
@@ -72,9 +98,9 @@
     </div>
   </section>
 
-  <section class="chapter" id="home">
+  <section class="page" id="home" data-title="04 · Home">
     <div class="chapter-head reveal">
-      <span class="label chapter-num">03 · Home</span>
+      <span class="label chapter-num">04 · Home</span>
       <h2 class="chapter-title" id="home-title"></h2>
     </div>
     <div class="chapter-body card reveal">
@@ -86,9 +112,9 @@
     </div>
   </section>
 
-  <section class="chapter" id="her">
+  <section class="page" id="her" data-title="05 · Her">
     <div class="chapter-head reveal">
-      <span class="label chapter-num">04 · Her</span>
+      <span class="label chapter-num">05 · Her</span>
       <h2 class="chapter-title" id="her-title"></h2>
     </div>
     <div class="chapter-body card reveal">
@@ -96,9 +122,9 @@
     </div>
   </section>
 
-  <section class="chapter" id="future">
+  <section class="page" id="future" data-title="06 · Future">
     <div class="chapter-head reveal">
-      <span class="label chapter-num">05 · Future</span>
+      <span class="label chapter-num">06 · Future</span>
       <h2 class="chapter-title" id="future-title"></h2>
     </div>
     <div class="chapter-body card reveal">
@@ -108,9 +134,9 @@
     </div>
   </section>
 
-  <section class="chapter" id="promises" style="--ink-color:var(--gold-bright)">
+  <section class="page" id="promises" data-title="07 · Promises" style="--ink-color:var(--gold-bright)">
     <div class="chapter-head reveal">
-      <span class="label chapter-num">06 · Promises</span>
+      <span class="label chapter-num">07 · Promises</span>
       <h2 class="chapter-title" id="promises-title"></h2>
     </div>
     <div class="chapter-body reveal">
@@ -118,9 +144,9 @@
     </div>
   </section>
 
-  <section class="chapter" id="letter">
+  <section class="page" id="letter" data-title="08 · Letter">
     <div class="chapter-head reveal">
-      <span class="label chapter-num">07 · Letter</span>
+      <span class="label chapter-num">08 · Letter</span>
       <h2 class="chapter-title" id="letter-title"></h2>
     </div>
     <div class="chapter-body reveal">
@@ -136,7 +162,7 @@
     </div>
   </section>
 
-  <section id="finale">
+  <section class="page" id="finale" data-title="09 · Finale">
     <div class="finale-card card">
       <div class="finale-stamp reveal" id="finale-stamp"></div>
       <h2 class="finale-title reveal" id="finale-title"></h2>
@@ -149,7 +175,13 @@
     </div>
   </section>
 
-</main>
+</div>
+
+<nav class="pagedock" id="pagedock" aria-label="Passport pages">
+  <button class="pd-arrow" id="prevPage" aria-label="Previous page">‹</button>
+  <div class="pd-dots" id="pdDots"></div>
+  <button class="pd-arrow" id="nextPage" aria-label="Next page">›</button>
+</nav>
 
 <script src="content.js"></script>
 <script src="script.js"></script>

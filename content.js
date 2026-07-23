@@ -13,6 +13,32 @@ window.CONTENT = {
     subtitle: "issued for one bulbul, valid indefinitely",
   },
 
+  // The "official" bio-data page. Deliberately playful/fictional fields —
+  // NOT real ID data — since this repo is public. If you want a real photo
+  // here instead of the bird-silhouette placeholder, set photoDataUri to a
+  // "data:image/jpeg;base64,...." string (think about the fact that this
+  // repo is public before you do).
+  bioData: {
+    photoDataUri: "",
+    givenNames: "KHUSHI (BULBUL)",
+    passportNo: "A ♥ K — 2026",
+    fields: [
+      { label: "Nationality", value: "TAKEN" },
+      { label: "Sex", value: "ONE OF A KIND" },
+      { label: "Date of Birth", value: "01 AUGUST" },
+      { label: "Place of Birth", value: "RANCHI, INDIA" },
+      { label: "Date of Issue", value: "09 MAR 2026" },
+      { label: "Date of Expiry", value: "NEVER" },
+      { label: "Authority", value: "REPUBLIC OF US" },
+    ],
+    signatureName: "Adarsh",
+    signatureLabel: "Witnessed & signed",
+    mrz: [
+      "P<UUSBULBUL<<KHUSHI<<<<<<<<<<<<<<<<<<<<<<<<<<",
+      "A000000K1UUS0000000F3600000<<<<<<<<<<<<<<02",
+    ],
+  },
+
   origin: {
     title: "A profile I almost didn't message",
     body: "March 2025. Jeevansathi, of all places — a matrimonial site, a form to fill out, a photo and a few facts standing in for a person. Somewhere in the ordinary business of “finding a match,” I found you instead. We talked. Then we talked every day. A year of getting to know each other, one conversation at a time, before either of us said it out loud.",
